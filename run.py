@@ -8,12 +8,12 @@ import requests
 from requests_futures.sessions import FuturesSession
 from unide.measurement import *
 
-monitoringEndpoint = "http://192.168.1.136:5000"
+monitoringEndpoint = "http://localhost:5000"
 authHeader = "Bearer iksldufgvuzdioasfvg"
 msBetweenMeasurements = 250
 measurementsPerMessage = 50
 
-device = Device("rpidrone1")
+device = Device("ppmpdrone1")
 
 r = Random()
 
