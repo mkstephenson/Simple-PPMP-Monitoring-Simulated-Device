@@ -8,19 +8,21 @@ import requests
 from requests_futures.sessions import FuturesSession
 from unide.measurement import *
 
-monitoringEndpoint = "http://localhost:5000"
-authHeader = "Bearer iksldufgvuzdioasfvg"
-msBetweenMeasurements = 250
-measurementsPerMessage = 50
+monitoringEndpoint = os.getenv("MONITORING_ENDPOINT", "http://localhost:5000")
+authHeader = os.getenv("AUTH_HEADER", "Bearer iksldufgvuzdioasfvg")
+msBetweenMeasurements = os.getenv("MS_BETWEEN_MEASUREMENTS", 250)
+measurementsPerMessage = os.getenv("MEASUREMENTS_PER_MESSAGE", 50)
+deviceId = os.getenv("DEVICE_ID", "drone1")
+maxRetries = os.getenv("MAX_RETRIES", 50)
 
-device = Device("ppmpdrone1")
+device = Device(deviceId)
 
 r = Random()
 
 currentSeries = ["temperature", "humidity", "pressure"]
 
 m = Measurement(unide.process.local_now(), dimensions=currentSeries)
-a = requests.adapters.HTTPAdapter(max_retries=50)
+a = requests.adapters.HTTPAdapter(max_retries=maxRetries)
 session = FuturesSession()
 session.mount('http://', a)
 session.headers = {
