@@ -10,11 +10,17 @@ from requests_futures.sessions import FuturesSession
 from unide.measurement import *
 
 monitoringEndpoint = os.getenv("MONITORING_ENDPOINT", "http://localhost:5000")
+print("Monitoring endpoint is " + monitoringEndpoint)
 authHeader = os.getenv("AUTH_HEADER", "Bearer iksldufgvuzdioasfvg")
+print("Auth header is " + authHeader)
 msBetweenMeasurements = os.getenv("MS_BETWEEN_MEASUREMENTS", 250)
+print("MS between measurements is " + msBetweenMeasurements)
 measurementsPerMessage = os.getenv("MEASUREMENTS_PER_MESSAGE", 50)
+print("Measurements per message is " + measurementsPerMessage)
 deviceId = os.getenv("DEVICE_ID", "drone1")
+print("Device ID is " + deviceId)
 maxRetries = os.getenv("MAX_RETRIES", 50)
+print("Max retries is " + maxRetries)
 
 device = Device(deviceId)
 
@@ -31,12 +37,7 @@ session.headers = {
     "Authorization": authHeader
 }
 
-
-def bg_cb(sess, resp):
-    # parse the json storing the result on the response object
-    resp.data = resp.json()
-    print(resp)
-
+print("Starting request loop")
 
 while True:
     lastMeasurement = datetime.datetime.utcnow()
@@ -49,7 +50,7 @@ while True:
         print("Sending message")
         payload = MeasurementPayload(device=device, measurements=[m])
         content = dumps(payload)
-        result = session.post(monitoringEndpoint, data=content, background_callback=bg_cb)
+        result = session.post(monitoringEndpoint, data=content)
 
         # Reset measurement object
         m = Measurement(unide.process.local_now(), dimensions=currentSeries)
