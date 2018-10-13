@@ -1,6 +1,7 @@
-FROM python:3.7-alpine
-WORKDIR /usr/src/app
-RUN pip install --no-cache-dir unide-python
-RUN pip install --no-cache-dir requests-futures
-COPY . .
-CMD [ "python", "./run.py" ]
+FROM python:3-alpine
+RUN apk add git
+RUN git clone https://github.com/eclipse/unide.python.git
+RUN cd unide.python && python setup.py install
+ADD run.py /
+RUN pip install requests-futures
+CMD [ "python", "./run.py", "-c", "options.ini" ]
