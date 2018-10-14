@@ -20,7 +20,6 @@ class ValueTemplate():
         self.min = min
         self.max = max
         
-
 r = Random()
 
 parser = argparse.ArgumentParser()
