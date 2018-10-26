@@ -63,7 +63,7 @@ deviceId = os.getenv("DEVICE_ID", config.get("DeviceSettings", "DeviceID", fallb
 print("Device ID: " + deviceId)
 
 # Template definition
-templateDefinition = os.getenv("VALUES_TEMPLATE_LOC", config.get("DeviceSettings", "ValuesTemplateLocation", fallback="template.json"))
+templateDefinition = os.getenv("VALUES_TEMPLATE_LOC", config.get("DeviceSettings", "ValuesTemplateLocation", fallback=None))
 print("Template definition location: " + templateDefinition)
 
 # Template definition as raw json
